@@ -1,4 +1,3 @@
-import { table } from "console";
 import React from "react";
 
 interface User {
@@ -23,7 +22,7 @@ const users: User[] = [
     name: "Lampard Frank",
     email: "lampard@cfc.com",
     phone: "08123345586",
-    company: "MUFC",
+    company: "CFC",
     address: "1123 London Avenue",
     companyInformation: "A dance club",
   },
