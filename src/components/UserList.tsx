@@ -38,10 +38,7 @@ const UserList = () => {
     console.log(data);
   }, [data]);
 
-  const [sortTerm, setSortTerm] = useState<string>("");
-
   const filterPlayers = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(players);
     const searchTerm = e.target.value;
 
     const matchingPlayers = players?.filter(
@@ -129,7 +126,7 @@ const UserList = () => {
         </div>
       </div>
 
-      <div className="flex gap-6 pr-12">
+      <div className="flex gap-6">
         {players.length > 0 && (
           <aside className="bg-white px-3 py-6 rounded-md w-[20%] max-w-[300px]">
             <div className="flex flex-col gap-[1px]">
@@ -152,21 +149,23 @@ const UserList = () => {
             <th className="w-1/3">Company Name</th>
           </thead>
           <tbody className="">
-            {players.length > 0
-              ? records.map((user: Player) => (
-                  <tr
-                    data-client={JSON.stringify(user)}
-                    key={user.name}
-                    onClick={handleUserClick}
-                    className="cursor-pointer flex gap-6 justify-between px-4 border-b border-gray-300 bg-white hover:bg-gray-50 transition-all"
-                  >
-                    <td className="w-1/6 py-3 ">{user.name}</td>
-                    <td className="w-1/3 py-3">{user.email}</td>
-                    <td className="w-1/6 py-3">{user.phone}</td>
-                    <td className="w-1/3 py-3">{user.company}</td>
-                  </tr>
-                ))
-              : "Users data not available"}
+            {players.length > 0 ? (
+              records.map((user: Player) => (
+                <tr
+                  data-client={JSON.stringify(user)}
+                  key={user.name}
+                  onClick={handleUserClick}
+                  className="cursor-pointer flex gap-6 justify-between px-4 border-b border-gray-300 bg-white hover:bg-gray-50 transition-all"
+                >
+                  <td className="w-1/6 py-3 ">{user.name}</td>
+                  <td className="w-1/3 py-3">{user.email}</td>
+                  <td className="w-1/6 py-3">{user.phone}</td>
+                  <td className="w-1/3 py-3">{user.company}</td>
+                </tr>
+              ))
+            ) : (
+              <p className="py-2 px-4">Users data not available</p>
+            )}
           </tbody>
         </table>
       </div>
