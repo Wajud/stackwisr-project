@@ -80,12 +80,25 @@ const UserList = () => {
     numbers.push(i);
   }
 
-  console.log(numbers);
   function changePage(n: number) {
     setCurrentPage(n);
   }
 
   //End of pagination
+
+  //Sidebar
+
+  const [sideUser, setSideUser] = useState(players[0]);
+  useEffect(() => setSideUser(players[0]), [players]);
+
+  function handleUserClick(
+    e: React.MouseEvent<HTMLTableRowElement, MouseEvent>
+  ) {
+    const userName = e.currentTarget.dataset.client as string;
+    setSideUser(JSON.parse(userName));
+  }
+
+  //End of sidebar
 
   return (
     <div>
@@ -121,13 +134,14 @@ const UserList = () => {
           <aside className="bg-white px-3 py-6 rounded-md w-[20%] max-w-[300px]">
             <div className="flex flex-col gap-[1px]">
               <h1 className="font-bold text-3xl text-gray-800">
-                {players[0].name}
+                {sideUser?.name}
               </h1>
-              <p className=" text-sm">{players[0].email}</p>
-              <p className=" text-xs">{players[0].phone}</p>
-              <p className=" text-sm">{players[0].address}</p>
+              <p className=" text-sm">{sideUser?.email}</p>
+              <p className=" text-xs">{sideUser?.phone}</p>
+              <p className=" text-sm">{sideUser?.address}</p>
             </div>
-            <p className="mt-4">{players[0].companyInformation}</p>
+            <p className="font-semibold mt-6 text-sm">Company Information</p>
+            <p className="mt-1">{sideUser?.companyInformation}</p>
           </aside>
         )}
         <table className="w-full bg-white rounded-md flex-1">
@@ -141,8 +155,10 @@ const UserList = () => {
             {players.length > 0
               ? records.map((user: Player) => (
                   <tr
+                    data-client={JSON.stringify(user)}
                     key={user.name}
-                    className="flex gap-6 justify-between px-4 border-b border-gray-300 bg-white hover:bg-gray-50 transition-all"
+                    onClick={handleUserClick}
+                    className="cursor-pointer flex gap-6 justify-between px-4 border-b border-gray-300 bg-white hover:bg-gray-50 transition-all"
                   >
                     <td className="w-1/6 py-3 ">{user.name}</td>
                     <td className="w-1/3 py-3">{user.email}</td>
