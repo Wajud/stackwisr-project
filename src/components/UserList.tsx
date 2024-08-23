@@ -10,10 +10,6 @@ interface Player {
   companyInformation: string;
 }
 
-interface sortFunction {
-  (a: Player, b: Player): number;
-}
-
 const GET_DATA = gql`
   query {
     users {
@@ -31,45 +27,33 @@ const UserList = () => {
   const [players, setPlayers] = useState<Player[]>([]);
 
   const { loading, error, data } = useQuery(GET_DATA);
-  console.log("loading: ", loading);
-  if (error) {
-    console.log("There was an error: ", error);
-  }
+
   useEffect(() => {
     if (data) {
       setPlayers(data.users);
     }
-    console.log(data);
   }, [data]);
 
-  const filterPlayers = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = e.target.value;
+  const [filter, setFilter] = useState("");
 
-    const matchingPlayers = players?.filter(
+  const filterPlayers = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let filterData: Player[] = data.users;
+    if (e.target.value === "") {
+      setPlayers(filterData);
+      return;
+    }
+
+    const matchingPlayers = filterData?.filter(
       (player) =>
-        player.name.toLowerCase().includes(searchTerm) ||
-        player.email.toLowerCase().includes(searchTerm)
+        player.name.toLowerCase().includes(e.target.value) ||
+        player.email.toLowerCase().includes(e.target.value)
     );
     if (matchingPlayers?.length === 0) {
       setPlayers(data.users);
     } else {
       setPlayers(matchingPlayers);
     }
-    console.log("matchingPlayers :", matchingPlayers);
-    console.log(e.target.value);
   };
-
-  function sorter(a: Player, b: Player) {
-    if (a.name < b.name) {
-      return -1;
-    }
-
-    if (a.name > b.name) {
-      return 1;
-    }
-
-    return 0;
-  }
 
   function handleSorting(e: React.ChangeEvent<HTMLSelectElement>) {
     const sortCriteria = e.target.value;
@@ -97,8 +81,6 @@ const UserList = () => {
       return 0;
     });
     setPlayers(sortedPlayers);
-
-    console.log(sortedPlayers);
   }
 
   //Pagination
@@ -165,7 +147,7 @@ const UserList = () => {
         </div>
       </div>
 
-      <div className="flex gap-6">
+      <div className="flex items-start gap-6">
         {players.length > 0 && (
           <aside className="bg-white px-3 py-6 rounded-md w-[20%] max-w-[300px]">
             <div className="flex flex-col gap-[1px]">
@@ -182,10 +164,10 @@ const UserList = () => {
         )}
         <table className="w-full bg-white rounded-md flex-1">
           <thead className="bg-white flex gap-6 justify-between text-left text-blue-700 border-b-2 border-gray-300 pb-2 px-4 pt-4 rounded-md">
-            <th className="w-1/6">Name</th>
-            <th className="w-1/3">Email</th>
-            <th className="w-1/6">Phone</th>
-            <th className="w-1/3">Company Name</th>
+            <th className="w-[25%]">Name</th>
+            <th className="w-[20%]">Email</th>
+            <th className="w-[20%]">Phone</th>
+            <th className="w-[35%]">Company Name</th>
           </thead>
           <tbody className="">
             {players.length > 0 ? (
@@ -196,10 +178,10 @@ const UserList = () => {
                   onClick={handleUserClick}
                   className="cursor-pointer flex gap-6 justify-between px-4 border-b border-gray-300 bg-white hover:bg-gray-200 transition-all"
                 >
-                  <td className="w-1/6 py-3 ">{user.name}</td>
-                  <td className="w-1/3 py-3">{user.email}</td>
-                  <td className="w-1/6 py-3">{user.phone}</td>
-                  <td className="w-1/3 py-3">{user.company}</td>
+                  <td className="w-[25%] py-3 ">{user.name}</td>
+                  <td className="w-[20%] py-3">{user.email}</td>
+                  <td className="w-[20%] py-3">{user.phone}</td>
+                  <td className="w-[35%] py-3">{user.company}</td>
                 </tr>
               ))
             ) : (
