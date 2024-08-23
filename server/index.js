@@ -74,6 +74,94 @@ const users = [
     address: "9887 Manchester Road",
     companyInformation: "A Movie Theater",
   },
+  {
+    name: "Lionel Messi",
+    email: "leo@messi.arg",
+    phone: "173494922",
+    company: "USA",
+    address: "1178 Sao Paulo",
+    companyInformation: "A Football Star",
+  },
+  {
+    name: "Xabi Alonso",
+    email: "xalonso@madrid.xtar",
+    phone: "88392022729",
+    company: "ESPN",
+    address: "3310 Alcantra",
+    companyInformation: "El Professora No Nito",
+  },
+  {
+    name: "Davido 30BG",
+    email: "songs@davido.com",
+    phone: "162390922",
+    company: "LAGOS",
+    address: "6543 Victoria Island",
+    companyInformation: "Team or Ring Leader, 30BG Crew",
+  },
+  {
+    name: "Taiye Taiwo",
+    email: "ttaiwo@naija.com",
+    phone: "710283742",
+    company: "LAGOS",
+    address: "1239 Ikeja Along",
+    companyInformation: "Left Foot, Hot Shot",
+  },
+  {
+    name: "Mr Money",
+    email: "aololade@music.com",
+    phone: "1236489",
+    company: "ALASKA",
+    address: "1245 Lekki Road",
+    companyInformation: "Mr Money with no vibe",
+  },
+  {
+    name: "Aliko Dangote",
+    email: "adangote@gmail.au",
+    phone: "90876421",
+    company: "ABUJA",
+    address: "7654 Gwagwalada",
+    companyInformation: "Man just get money anyhow",
+  },
+  {
+    name: "Femi Otedola",
+    email: "fotedola@forte.oil",
+    phone: "5412700",
+    company: "ABUJA",
+    address: "9887 Lagos Road",
+    companyInformation: "Oil Money, Business Mogul",
+  },
+  {
+    name: "Muhammed Alli",
+    email: "malli@boxing.ring",
+    phone: "76541324",
+    company: "MALI",
+    address: "765 Nigerian Route",
+    companyInformation: "Boxing Legend. A true king",
+  },
+  {
+    name: "Usain Bolt",
+    email: "ubolt@track.speed",
+    phone: "83726212",
+    company: "TRACK",
+    address: "9887 Jamaica Land",
+    companyInformation: "King on the track. No one faster",
+  },
+  {
+    name: "Annalise Keating",
+    email: "akeating@law.court",
+    phone: "81793902",
+    company: "KAPPA",
+    address: "890 Manhattan Road",
+    companyInformation: "What a lawyer. What a woman",
+  },
+  {
+    name: "Raymond Reddington",
+    email: "rred@concierge.crime",
+    phone: "23473938",
+    company: "NYCITY",
+    address: "923 FBI Road",
+    companyInformation: "Top of FBI List. Most Wanted",
+  },
 ];
 
 // Resolvers define how to fetch the types defined in your schema.
@@ -96,7 +184,7 @@ const server = new ApolloServer({
 //  2. installs your ApolloServer instance as middleware
 //  3. prepares your app to handle incoming requests
 const { url } = await startStandaloneServer(server, {
-  listen: { port: 4000 },
+  listen: { port: 8800 },
 });
 
 console.log(`Server ready at: ${url}`);

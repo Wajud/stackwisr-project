@@ -24,7 +24,7 @@ const GET_DATA = gql`
 `;
 
 const UserList = () => {
-  const [players, setPlayers] = useState<Player[]>();
+  const [players, setPlayers] = useState<Player[]>([]);
 
   const { loading, error, data } = useQuery(GET_DATA);
   console.log("loading: ", loading);
@@ -59,13 +59,33 @@ const UserList = () => {
   };
 
   function handleSorting(e: React.ChangeEvent<HTMLSelectElement>) {
-    if (players !== null && players !== undefined) {
-      const sortedPlayers = players?.sort((a, b) =>
-        a.name.localeCompare(b.name)
-      );
-      console.log(sortedPlayers);
-    }
+    const sortedPlayers = players?.sort((player) =>
+      player.name.localeCompare(player.name)
+    );
+    console.log(sortedPlayers);
   }
+
+  //Pagination
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage: number = 5;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+
+  const records = players?.slice(firstIndex, lastIndex);
+  const npage = Math.ceil(players?.length / recordsPerPage);
+
+  let numbers: number[] = [];
+  for (let i = 1; i <= npage; i++) {
+    numbers.push(i);
+  }
+
+  console.log(numbers);
+  function changePage(n: number) {
+    setCurrentPage(n);
+  }
+
+  //End of pagination
 
   return (
     <div>
@@ -81,7 +101,6 @@ const UserList = () => {
 
         <div className="relative h-10 w-72 min-w-[200px] bg-white rounded-[7px] focus:outline-none">
           <select
-            value={sortTerm}
             onChange={handleSorting}
             className="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
           >
@@ -98,7 +117,7 @@ const UserList = () => {
       </div>
 
       <div className="flex gap-6 pr-12">
-        {players && (
+        {players.length > 0 && (
           <aside className="bg-white px-3 py-6 rounded-md w-[20%] max-w-[300px]">
             <div className="flex flex-col gap-[1px]">
               <h1 className="font-bold text-3xl text-gray-800">
@@ -119,8 +138,8 @@ const UserList = () => {
             <th className="w-1/3">Company Name</th>
           </thead>
           <tbody className="">
-            {players
-              ? players.map((user: Player) => (
+            {players.length > 0
+              ? records.map((user: Player) => (
                   <tr
                     key={user.name}
                     className="flex gap-6 justify-between px-4 border-b border-gray-300 bg-white hover:bg-gray-50 transition-all"
@@ -135,6 +154,21 @@ const UserList = () => {
           </tbody>
         </table>
       </div>
+
+      <nav className="w-full flex justify-center mt-8">
+        <ul className="flex justify-center gap-4">
+          {numbers.map((n, i) => (
+            <li
+              onClick={() => changePage(n)}
+              className={`bg-white py-1 px-4 rounded-sm flex items-center font-semibold cursor-pointer ${
+                currentPage === n ? "bg-blue-500 text-white" : ""
+              }`}
+            >
+              {n}
+            </li>
+          ))}
+        </ul>
+      </nav>
     </div>
   );
 };
