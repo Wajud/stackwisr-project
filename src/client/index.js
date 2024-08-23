@@ -1,13 +1,7 @@
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  gql,
-} from "@apollo/client";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
 export const client = new ApolloClient({
   uri: "/graphql",
-  // uri: "https://flyby-router-demo.herokuapp.com/",
   cache: new InMemoryCache(),
 });
 
@@ -15,9 +9,13 @@ client
   .query({
     query: gql`
       query {
-        books {
-          title
-          author
+        users {
+          name
+          email
+          phone
+          company
+          address
+          companyInformation
         }
       }
     `,

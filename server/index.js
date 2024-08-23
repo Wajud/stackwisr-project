@@ -8,27 +8,71 @@ const typeDefs = `#graphql
   # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
 
   # This "Book" type defines the queryable fields for every book in our data source.
-  type Book {
-    title: String
-    author: String
+  type User {
+    name: String
+    email: String
+    phone: String
+    company: String
+    address: String
+    companyInformation: String
   }
 
   # The "Query" type is special: it lists all of the available queries that
   # clients can execute, along with the return type for each. In this
   # case, the "books" query returns an array of zero or more Books (defined above).
   type Query {
-    books: [Book]
+    users: [User]
   }
 `;
 
-const books = [
+const users = [
   {
-    title: "The Awakening",
-    author: "Kate Chopin",
+    name: "Rooney Wayne",
+    email: "rooney@utd.com",
+    phone: "27999123",
+    company: "MUFC",
+    address: "2334 Manchester Road",
+    companyInformation: "A football club",
   },
   {
-    title: "City of Glass",
-    author: "Paul Auster",
+    name: "Lampard Frank",
+    email: "lampard@cfc.com",
+    phone: "08123345586",
+    company: "CFC",
+    address: "1123 London Avenue",
+    companyInformation: "A dance club",
+  },
+  {
+    name: "Ronaldo Chris",
+    email: "ronaldo@utd.com",
+    phone: "4778696060",
+    company: "MUFC",
+    address: "2334 Manchester Road",
+    companyInformation: "A football club",
+  },
+  {
+    name: "Fabregas Fanta",
+    email: "fabregas@ars.com",
+    phone: "8906015273",
+    company: "ARS",
+    address: "1245 London Avenue",
+    companyInformation: "A weapons store",
+  },
+  {
+    name: "Gerrard Jerry",
+    email: "gerrad@liv.com",
+    phone: "2383372",
+    company: "LIV",
+    address: "1124 South London Road",
+    companyInformation: "A museum",
+  },
+  {
+    name: "Kompany Vincent",
+    email: "kompany@city.com",
+    phone: "826241729",
+    company: "CITY",
+    address: "9887 Manchester Road",
+    companyInformation: "A Movie Theater",
   },
 ];
 
@@ -36,7 +80,7 @@ const books = [
 // This resolver retrieves books from the "books" array above.
 const resolvers = {
   Query: {
-    books: () => books,
+    users: () => users,
   },
 };
 
