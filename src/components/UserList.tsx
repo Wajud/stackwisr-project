@@ -10,6 +10,10 @@ interface Player {
   companyInformation: string;
 }
 
+interface sortFunction {
+  (a: Player, b: Player): number;
+}
+
 const GET_DATA = gql`
   query {
     users {
@@ -55,10 +59,45 @@ const UserList = () => {
     console.log(e.target.value);
   };
 
+  function sorter(a: Player, b: Player) {
+    if (a.name < b.name) {
+      return -1;
+    }
+
+    if (a.name > b.name) {
+      return 1;
+    }
+
+    return 0;
+  }
+
   function handleSorting(e: React.ChangeEvent<HTMLSelectElement>) {
-    const sortedPlayers = players?.sort((player) =>
-      player.name.localeCompare(player.name)
-    );
+    const sortCriteria = e.target.value;
+    const playersCopy = [...players];
+
+    const sortedPlayers = playersCopy?.sort((a: Player, b: Player) => {
+      if (sortCriteria === "name") {
+        if (a.name < b.name) {
+          return -1;
+        }
+
+        if (a.name > b.name) {
+          return 1;
+        }
+      } else if (sortCriteria === "company") {
+        if (a.company < b.company) {
+          return -1;
+        }
+
+        if (a.company > b.company) {
+          return 1;
+        }
+      }
+
+      return 0;
+    });
+    setPlayers(sortedPlayers);
+
     console.log(sortedPlayers);
   }
 
@@ -155,7 +194,7 @@ const UserList = () => {
                   data-client={JSON.stringify(user)}
                   key={user.name}
                   onClick={handleUserClick}
-                  className="cursor-pointer flex gap-6 justify-between px-4 border-b border-gray-300 bg-white hover:bg-gray-50 transition-all"
+                  className="cursor-pointer flex gap-6 justify-between px-4 border-b border-gray-300 bg-white hover:bg-gray-200 transition-all"
                 >
                   <td className="w-1/6 py-3 ">{user.name}</td>
                   <td className="w-1/3 py-3">{user.email}</td>
@@ -176,7 +215,7 @@ const UserList = () => {
             <li
               onClick={() => changePage(n)}
               className={`bg-white py-1 px-4 rounded-sm flex items-center font-semibold cursor-pointer ${
-                currentPage === n ? "bg-blue-500 text-white" : ""
+                currentPage === n ? "bg-blue-600 text-white" : ""
               }`}
             >
               {n}
